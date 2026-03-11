@@ -1,4 +1,4 @@
-snapshots/
+#snapshots/
 figures/
 *.pdf
 *.asv
