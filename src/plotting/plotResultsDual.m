@@ -14,7 +14,18 @@
 %   - Default PSC line uses nocred to match LCOE summary plot.
 %--------------------------------------------------------------------------
 
-function plotResultsDual(results)
+% function plotResultsDual(results)
+function plotResultsDual(results, allResults)
+
+if nargin < 2
+    % Fallback for older callers (e.g., RUNcomputeSimulation)
+    % that rely on base workspace 'results'
+    try
+        allResults = evalin('base','results');
+    catch
+        allResults = struct();  % empty fallback
+    end
+end
 
 % --- User toggles ---
 showPSCmaxLine      = true;    % draw PSC max line on DAC charts
@@ -46,7 +57,8 @@ xlim(dynamicLimit([results.LCOE_nocred; results.LCOE_cred]));
 
 % --- Add PSC max line (DAC scenarios only) ---
 if isDAC && showPSCmaxLine
-    maxPSC = getPSCmax(results, useCreditForPSCline);
+    % maxPSC = getPSCmax(results, useCreditForPSCline);
+    maxPSC = getPSCmax(results, allResults, useCreditForPSCline);
     if ~isnan(maxPSC)
         xline(maxPSC, 'k--', 'LineWidth', 2, ...
             'Label', 'PSC max', ...
@@ -201,7 +213,34 @@ end
 %% ------------------------------------------------------------------------
 % Helper: Get PSC max LCOE (cred or nocred)
 % -------------------------------------------------------------------------
-function maxPSC = getPSCmax(results, useCredit)
+% function maxPSC = getPSCmax(results, useCredit)
+% 
+%     % Determine PSC scenario name
+%     if contains(results.scenario, 'NGCC')
+%         pscField = 'NGCC_PSC';
+%     elseif contains(results.scenario, 'NG')
+%         pscField = 'NG_PSC';
+%     elseif contains(results.scenario, 'Coal')
+%         pscField = 'Coal_PSC';
+%     else
+%         maxPSC = NaN;
+%         return;
+%     end
+% 
+%     % Access base workspace results struct
+%     base = evalin('base', 'results');
+% 
+%     % Select LCOE field
+%     if useCredit
+%         vec = base.(pscField).LCOE_cred;
+%     else
+%         vec = base.(pscField).LCOE_nocred;
+%     end
+% 
+%     maxPSC = max(vec(:));
+% end
+
+function maxPSC = getPSCmax(results, allResults, useCredit)
 
     % Determine PSC scenario name
     if contains(results.scenario, 'NGCC')
@@ -215,14 +254,25 @@ function maxPSC = getPSCmax(results, useCredit)
         return;
     end
 
-    % Access base workspace results struct
-    base = evalin('base', 'results');
+    % If allResults is empty, try base workspace as last resort
+    if nargin < 2 || isempty(allResults)
+        try
+            allResults = evalin('base','results');
+        catch
+            maxPSC = NaN;
+            return;
+        end
+    end
 
-    % Select LCOE field
+    if ~isfield(allResults, pscField)
+        maxPSC = NaN;
+        return;
+    end
+
     if useCredit
-        vec = base.(pscField).LCOE_cred;
+        vec = allResults.(pscField).LCOE_cred;
     else
-        vec = base.(pscField).LCOE_nocred;
+        vec = allResults.(pscField).LCOE_nocred;
     end
 
     maxPSC = max(vec(:));
