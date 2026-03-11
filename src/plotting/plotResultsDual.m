@@ -6,24 +6,34 @@
 % Date: January 2026
 %
 % Purpose:
-%   Generate visualizations comparing Monte Carlo results with and without
-%   45Q credit. Includes optional PSC reference line for DAC scenarios.
+%   Generate all scenario‑specific visualizations (LCOE/LCOC/LCOS histograms,
+%   breakeven credit histogram, tornado charts) for a single scenario.
+%
+%   The function accepts:
+%     • results     — struct for the selected scenario
+%     • allResults  — (optional) struct containing *all* scenarios
+%                     required for PSC reference line reconstruction
+%
+%   If allResults is omitted, the function attempts to fall back to the
+%   base workspace for backward compatibility with RUNcomputeSimulation.
 %
 % Notes:
 %   - PSC reference line appears ONLY for DAC scenarios.
 %   - Default PSC line uses nocred to match LCOE summary plot.
+%   - Fully snapshot‑safe when allResults is provided.
 %--------------------------------------------------------------------------
 
 % function plotResultsDual(results)
 function plotResultsDual(results, allResults)
 
-if nargin < 2
-    % Fallback for older callers (e.g., RUNcomputeSimulation)
-    % that rely on base workspace 'results'
+if nargin < 2 || isempty(allResults)
     try
         allResults = evalin('base','results');
+        if ~isstruct(allResults)
+            allResults = struct();
+        end
     catch
-        allResults = struct();  % empty fallback
+        allResults = struct();
     end
 end
 
