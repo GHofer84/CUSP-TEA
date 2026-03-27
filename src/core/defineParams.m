@@ -55,7 +55,7 @@ params.coal = {
     {'power_plant_net_eff',                0.33}        % fraction
     {'power_plant_cost',                      0}        % EOL; existing plant
     {'power_cost_is_levelized',               1}        % 1 = $/MWhel (already levelized), 0 = $/MW (needs CRF)
-    {'power_plant_decom_cost',  10,   20,   'u'}        % $/MWhel; assumption
+    {'power_plant_decom_cost',  10,   20,   'u'}        % $/MWhel; assumption; likely not taken into account
     {'power_decom_cost_is_levelized',         1}        % 1 = $/MWhel (already levelized), 0 = $/MW (needs CRF)
     {'power_plant_opex',        37,   48,   's'}        % $/MWhel; (29...40 + 8) $/MWhel
     {'power_plant_lifetime',                  0}        % years; 0 = existing plant
@@ -66,15 +66,18 @@ params.coal = {
 
 %% --- Natural Gas Refired Coal (scenario specific parameters) ---
 params.ng = {
-    {'fuel_price',              5,    15,    10}        % $/Mcf; approx. AZ price range, source: EIA
+    {'fuel_price',              5,    15,   'u'}        % $/Mcf; approx. AZ price range, source: EIA
+    % {'fuel_price',              0}
     {'NG_LHV',                             1.02}        % MBtu/Mcf; approx. AZ NG LHV range, source: EIA
     {'carbon_intensity',        0.55, 0.68, 'u'}        % tCO2/MWhel; NG-refired coal - ~40% of coal baseline
     {'power_plant_net_eff',     0.35, 0.37, 0.37}       % fraction; idea: slightly better than coal, lower than NGCC 
-    {'power_plant_cost',        40,   60,   'u'}        % in $/MWhel with lifetime and discounting inactive or in $/MWel with lifetime and discounting active
+    % {'power_plant_cost',        40,   60,   'u'}        % in $/MWhel with lifetime and discounting inactive or in $/MWel with lifetime and discounting active
+    {'power_plant_cost',        32,   54,   'u'}
     {'power_cost_is_levelized',               1}        % 1 = $/MWhel (already levelized), 0 = $/MW (needs CRF)
     {'power_plant_decom_cost',  10,   20,   'u'}        % $/MWhel; same as coal, assumption
     {'power_decom_cost_is_levelized',         1}        % 1 = $/MWhel (already levelized), 0 = $/MW (needs CRF)
-    {'power_plant_opex',        6,    8,    's'}        % $/MWhel; (2...3 + 4...5) $/MWhel
+    {'power_plant_opex',        6,    8,    'u'}        % $/MWhel; (2...3 + 4...5) $/MWhel
+    % {'power_plant_opex',        0}
     {'power_plant_lifetime',    15,   20,   'u'}        % years; assumption
     {'capacity_factor',         0.5,  0.8,  's'}        % fraction; same as coal
     {'psc_penalty',             0.20, 0.35, 0.30}       % fraction, MWhel loss; same as coal
@@ -83,18 +86,21 @@ params.ng = {
 
 %% --- Natural Gas Combined Cycle (scenario specific parameters) ---
 params.ngcc = {
-    {'fuel_price',              5,    15,    10}        % $/Mcf; approx. AZ price range, source: EIA
+    {'fuel_price',              5,    15,   'u'}        % $/Mcf; approx. AZ price range, source: EIA
+    % {'fuel_price',              0}
     {'NG_LHV',                             1.02}        % MBtu/Mcf; approx. AZ NG LHV range, source: EIA
     {'carbon_intensity',        0.32, 0.36, 0.33}       % tCO2/MWhel; new plant
     {'power_plant_net_eff',     0.55, 0.60, 'u'}        % fraction; idea: slightly better than coal, lower than NGCC 
-    {'power_plant_cost',        35,   49,   'u'}        % in $/MWhel with lifetime and discounting inactive or in $/MWel with lifetime and discounting active
+    % {'power_plant_cost',        35,   49,   'u'}        % in $/MWhel with lifetime and discounting inactive or in $/MWel with lifetime and discounting active
+    {'power_plant_cost',        25,   50,   'u'}
     {'power_cost_is_levelized',               1}        % 1 = $/MWhel (already levelized), 0 = $/MW (needs CRF)
     {'power_plant_decom_cost',  5,    15,   'u'}        % $/MWhel; slightly lower as coal, assumption
     {'power_decom_cost_is_levelized',         1}        % 1 = $/MWhel (already levelized), 0 = $/MW (needs CRF)
     {'power_plant_opex',        6,    8,    'u'}        % $/MWhel; same as NG
+    % {'power_plant_opex',        0}
     {'power_plant_lifetime',    30,   50,   'u'}        % years; assumption
     {'capacity_factor',         0.5,  0.8,  's'}        % fraction; same as coal
-    {'psc_penalty',             0.15, 0.25, 'u'}        % fraction, MWhel loss; lower as coal - plant designed for CCS
+    {'psc_penalty',             0.11, 0.20, 0.17}        % fraction, MWhel loss; lower as coal - plant designed for CCS
     {'dac_penalty',                           0}        % fraction, MWhel loss; 0 = DAC not parasitic on plant
 };
 

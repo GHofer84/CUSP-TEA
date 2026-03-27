@@ -7,14 +7,8 @@
 %
 % Purpose:
 %   Load a previously saved simulation snapshot from the project-level
-%   /snapshots directory. Returns all stored variables as function outputs.
-%
-% Usage:
-%   [results, valResults, LCOEsummary, ValidationLCOE, LazardLCOE, runInfo] = RUNloadSnapshot();
-%
-% Notes:
-%   - No longer depends on the base workspace.
-%   - Fully compatible with MATLAB Projects and reproducible workflows.
+%   /snapshots directory. Returns all stored variables as function outputs
+%   and assigns them into the base workspace for compatibility.
 %--------------------------------------------------------------------------
 
 function [results, valResults, LCOEsummary, ValidationLCOE, LazardLCOE, runInfo] = RUNloadSnapshot()
@@ -64,7 +58,36 @@ function [results, valResults, LCOEsummary, ValidationLCOE, LazardLCOE, runInfo]
     LCOEsummary    = data.LCOEsummary;
     ValidationLCOE = data.ValidationLCOE;
     LazardLCOE     = data.LazardLCOE;
-    runInfo        = data.runInfo;
+
+    % --- Modular runInfo handling ---
+    runInfoField = '';
+    if isfield(data, 'runInfo')
+        runInfoField = 'runInfo';
+    elseif isfield(data, 'runInfo_reproduced')
+        runInfoField = 'runInfo_reproduced';
+    else
+        error('Snapshot does not contain runInfo or runInfo_reproduced.');
+    end
+
+    runInfo = data.(runInfoField);
+
+    % Clear base workspace before loading snapshot variables
+    evalin('base','clearvars');
+
+    % Assign into base workspace
+    assignin('base','results',results);
+    assignin('base','valResults',valResults);
+    assignin('base','LCOEsummary',LCOEsummary);
+    assignin('base','ValidationLCOE',ValidationLCOE);
+    assignin('base','LazardLCOE',LazardLCOE);
+
+    % Canonical name
+    assignin('base','runInfo',runInfo);
+
+    % Preserve original name if reproduced
+    if strcmp(runInfoField,'runInfo_reproduced')
+        assignin('base','runInfo_reproduced',runInfo);
+    end
 
     fprintf('\nSnapshot loaded successfully.\n\n');
 end

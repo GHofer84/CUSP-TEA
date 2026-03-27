@@ -76,11 +76,15 @@ fprintf('\nLoading snapshot: %s\n', selectedFile);
 
 data = load(selectedFile);
 
-if ~isfield(data, 'runInfo')
-    error('Snapshot does not contain runInfo. Cannot reproduce.');
+% Support both original and reproduced snapshots
+if isfield(data, 'runInfo')
+    runInfo = data.runInfo;
+elseif isfield(data, 'runInfo_reproduced')
+    runInfo = data.runInfo_reproduced;
+else
+    error('Snapshot does not contain runInfo or runInfo_reproduced. Cannot reproduce.');
 end
 
-runInfo = data.runInfo;
 originalTS = runInfo.timestamp;
 
 fprintf('Original run timestamp: %s\n', originalTS);
