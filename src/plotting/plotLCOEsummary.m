@@ -1,4 +1,3 @@
-function plotLCOEsummary(LCOEsummary, LazardLCOE, ValidationLCOE)
 %--------------------------------------------------------------------------
 % plotLCOEsummary.m
 %
@@ -15,6 +14,8 @@ function plotLCOEsummary(LCOEsummary, LazardLCOE, ValidationLCOE)
 %   - Export handled by saveFigure().
 %   - Uses getScenarioStyle() for TEA scenario colors.
 %--------------------------------------------------------------------------
+
+function plotLCOEsummary(LCOEsummary, LazardLCOE, ValidationLCOE)
 
 %% --- Define TEA scenarios ---
 teaTags   = {'Coal_PSC','Coal_DAC','NG_PSC','NG_DAC','NGCC_PSC','NGCC_DAC'};

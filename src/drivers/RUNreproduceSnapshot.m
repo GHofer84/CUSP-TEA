@@ -122,10 +122,16 @@ if paramChoice == 1
     if isfield(runInfo, 'params')
         params = runInfo.params;
         fprintf('Using parameters stored in snapshot.\n\n');
+
+    elseif isfield(runInfo, 'params_used')
+        params = runInfo.params_used;
+        fprintf('Using parameters stored in reproduced snapshot.\n\n');
+
     else
-        warning('Snapshot does not contain params. Using defineParams.m instead.');
+        warning('Snapshot does not contain parameters. Using defineParams.m instead.');
         params = defineParams;
     end
+
 else
     params = defineParams;
     fprintf('Using current parameters from defineParams.m.\n\n');

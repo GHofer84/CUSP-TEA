@@ -23,7 +23,6 @@
 %   - Fully snapshot‑safe when allResults is provided.
 %--------------------------------------------------------------------------
 
-% function plotResultsDual(results)
 function plotResultsDual(results, allResults)
 
 if nargin < 2 || isempty(allResults)

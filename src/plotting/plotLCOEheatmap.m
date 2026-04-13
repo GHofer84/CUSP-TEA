@@ -1,4 +1,3 @@
-function plotLCOEheatmap(LCOEsummary, ValidationLCOE)
 %--------------------------------------------------------------------------
 % plotLCOEheatmap.m
 %
@@ -19,6 +18,8 @@ function plotLCOEheatmap(LCOEsummary, ValidationLCOE)
 %   - Uses a unified custom colormap for all three panels.
 %   - Export handled by saveFigure().
 %--------------------------------------------------------------------------
+
+function plotLCOEheatmap(LCOEsummary, ValidationLCOE)
 
 %% --- Scenario ordering ---
 tags = {'Coal_PSC','Coal_DAC','NG_PSC','NG_DAC','NGCC_PSC','NGCC_DAC'};

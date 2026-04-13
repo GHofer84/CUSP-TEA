@@ -1,4 +1,3 @@
-function plotBreakevenCDF(allResults)
 %--------------------------------------------------------------------------
 % plotBreakevenCDF.m
 %
@@ -14,6 +13,8 @@ function plotBreakevenCDF(allResults)
 %   - No title (Stephanie trims titles in the report).
 %   - Export handled by saveFigure().
 %--------------------------------------------------------------------------
+
+function plotBreakevenCDF(allResults)
 
 fig = newFigure(6.25, 5);
 hold on;
