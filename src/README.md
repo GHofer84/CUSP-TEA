@@ -9,7 +9,7 @@ Designed for **reproducibility** and **comparability across scenarios**.
 ## Quick Start
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/GHofer84/CUSP-TEA.git
 cd TEA-framework
 ```
 
