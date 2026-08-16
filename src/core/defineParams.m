@@ -125,7 +125,7 @@ params.dac = {
     {'ccs_plant_decom_cost',    10,   20,   'u'}        % $/tCO2; DAC plant decommissioning cost, assumption
     {'ccs_plant_opex',          0,    100,  'u'}        % $/tCO2; DAC plant OPEX, energy cost included
     {'ccs_plant_lifetime',      30,   50,   'u'}        % years; assumption
-    {'storage_cost',            1,    20,   's'}        % $/tCO2
+    {'storage_cost',            1,    20,   'u'}        % $/tCO2
     {'transport_cost',          0.03, 0.22, 'u'}        % $/tCO2/mi
     {'pipeline_length',         0,    2,    'u'}        % mi
     {'offset_cost',                           0}        % $/tCO2; 0 because of 100% internal capture via DAC
